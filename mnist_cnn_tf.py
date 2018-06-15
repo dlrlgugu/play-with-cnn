@@ -7,7 +7,7 @@ from tensorflow.examples.tutorials.mnist import input_data
 #tf.set_random_seed()
 #np.random.seed()
 batch_size=128
-training_epoch=12
+training_epoch=2
 
 mnist = input_data.read_data_sets("MNIST_data/",one_hot=True)
 X_train = mnist.train.images #(55000, 784) 28*28*1
@@ -54,7 +54,6 @@ for epoch in range(training_epoch):
         bx,by = mnist.train.next_batch(batch_size)
         feed_dict = {X:bx,Y:by}
         c,_ =sess.run([cost,optimizer],feed_dict=feed_dict)
-        #print(c)
         ac += c/total_batch
     print('Epoch:', '%04d' % (epoch + 1), 'cost =', '{:.9f}'.format(ac))
 
@@ -65,12 +64,35 @@ acc=tf.reduce_mean(tf.cast(correct_pred,tf.float32))
 print('Accuracy:', sess.run(acc, feed_dict={
       X: mnist.test.images, Y: mnist.test.labels}))
 
+"""
+r = random.randint(0, mnist.test.num_examples - 1)
+print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
+print("Prediction: ", sess.run(
+    tf.argmax(logits, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
+"""
+
+img_list=['4.png','5.jpg','6.jpg','6.png','7.jpg','8.png','9.jpg','1.jpg','two.png','two2.png']
+
+#need to feed (1, 784)
 
 
+#1.image reshape.
+#2.put image to tensor.
+#3.feed it.
 
+import numpy as np
+from PIL import Image
+from scipy import ndimage
+im=Image.open('7.jpg') #6.png
+img=im.resize((28,28))
+img=img.convert('L')
+img.save('re9',"JPEG")
+img_array=np.array(Image.open('re9')).flatten()
+img_array=np.reshape(img_array,(1,784))
 
-
-
+print("Label: ", sess.run(tf.argmax(img_array, 1)))
+print("Prediction: ", sess.run(
+    tf.argmax(logits, 1), feed_dict={X: img_array}))
 
 
     
