@@ -17,10 +17,14 @@ weight = tf.constant([[[[0.2]],[[0.2]]],
 
 conv2d = tf.nn.conv2d(image,weight,strides=[1,1,1,1],padding='SAME')
 conv2d_img=conv2d.eval()
+print("conv2d")
 print(conv2d_img)
 conv2d_img = np.swapaxes(conv2d_img, 0, 3)
 print(conv2d_img.shape)
-
+print("maxpool")
+pool = tf.nn.max_pool(conv2d_img,ksize=[1,2,2,1],strides=[1,1,1,1],padding='SAME')
+print(pool.shape)
+print(pool.eval())
 for i, one_img in enumerate(conv2d_img):
     print(one_img.reshape(3,3))
     plt.subplot(1,2,i+1), plt.imshow(one_img.reshape(3,3))
