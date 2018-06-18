@@ -64,12 +64,12 @@ acc=tf.reduce_mean(tf.cast(correct_pred,tf.float32))
 print('Accuracy:', sess.run(acc, feed_dict={
       X: mnist.test.images, Y: mnist.test.labels}))
 
-"""
-r = random.randint(0, mnist.test.num_examples - 1)
-print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
-print("Prediction: ", sess.run(
-    tf.argmax(logits, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
-"""
+
+for i in range(10):
+    r = random.randint(0, mnist.test.num_examples - 1)
+    print("Label: ", sess.run(tf.argmax(mnist.test.labels[r:r + 1], 1)))
+    print("Prediction: ", sess.run(tf.argmax(logits, 1), feed_dict={X: mnist.test.images[r:r + 1]}))
+
 
 img_list=['4.png','5.jpg','6.jpg','6.png','7.jpg','8.png','9.jpg','1.jpg','two.png','two2.png']
 
@@ -83,16 +83,17 @@ img_list=['4.png','5.jpg','6.jpg','6.png','7.jpg','8.png','9.jpg','1.jpg','two.p
 import numpy as np
 from PIL import Image
 from scipy import ndimage
-im=Image.open('7.jpg') #6.png
+im=Image.open('5.jpg') #6.png
 img=im.resize((28,28))
 img=img.convert('L')
 img.save('re9',"JPEG")
 img_array=np.array(Image.open('re9')).flatten()
+plt.imshow(img_array.reshape(28,28))
+plt.show()
 img_array=np.reshape(img_array,(1,784))
 
 print("Label: ", sess.run(tf.argmax(img_array, 1)))
 print("Prediction: ", sess.run(
     tf.argmax(logits, 1), feed_dict={X: img_array}))
-
 
     
