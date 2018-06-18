@@ -32,38 +32,76 @@ plt.imshow(cat)
 #plt.show()
 
 model=Sequential()
-model.add(Conv2D(3,3,strides=(1,1),padding='valid',input_shape=cat.shape))
+model.add(Conv2D(3,3,strides=(1,1),padding='same',input_shape=cat.shape))
 
 #cat_batch=np.expand_dims(cat,axis=0)#(350, 467, 3) -> (1, 350, 467, 3)
 #conv_cat = model.predict(cat_batch)
 #visualize_step(conv_cat)
 
 model.add(Activation('relu'))
-more_clear(model,cat)
+model.add(MaxPooling2D(pool_size=(1,1)))
 
-model.add(MaxPooling2D(pool_size=(5,5)))
-more_clear(model,cat)
+cat_batch=np.expand_dims(cat,axis=0)
+conv_cat2=model.predict(cat_batch)
+conv_cat2=np.squeeze(conv_cat2,axis=0)
+print(conv_cat2.shape)
+plt.imshow(conv_cat2)
+plt.show()
+#more_clear(model,cat)
 
 #more_clear(model,cat)
 #print(conv_cat.shape)#(1, 348, 465, 3)
 
 
-model.add(Conv2D(5,3,padding='valid',input_shape=cat.shape))
-more_clear(model,cat)
+model.add(Conv2D(5,3,padding='valid',input_shape=conv_cat2.shape))
+#more_clear(model,cat)
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(1,1)))
 
 
+cat_batch=np.expand_dims(conv_cat2,axis=0)
+conv_cat3=model.predict(cat_batch)
+conv_cat3=np.squeeze(conv_cat3,axis=0)
+print(conv_cat3.shape)
+plt.imshow(conv_cat3)
+plt.show()
 
 
+model.add(Conv2D(15,3,padding='valid',input_shape=conv_cat2.shape))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(1,1)))
+
+cat_batch=np.expand_dims(conv_cat3,axis=0)
+conv_cat4=model.predict(cat_batch)
+conv_cat4=np.squeeze(conv_cat4,axis=0)
+print(conv_cat4.shape)
+plt.imshow(conv_cat4)
+plt.show()
 
 
+model.add(Conv2D(55,5,padding='valid',input_shape=conv_cat2.shape))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(1,1)))
 
 
+cat_batch=np.expand_dims(conv_cat4,axis=0)
+conv_cat5=model.predict(cat_batch)
+conv_cat5=np.squeeze(conv_cat5,axis=0)
+print(conv_cat5.shape)
+plt.imshow(conv_cat5)
+plt.show()
 
 
+model.add(Conv2D(155,10,padding='valid',input_shape=conv_cat2.shape))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=(1,1)))
 
-
-
-
+cat_batch=np.expand_dims(conv_cat5,axis=0)
+conv_cat6=model.predict(cat_batch)
+conv_cat6=np.squeeze(conv_cat6,axis=0)
+print(conv_cat6.shape)
+plt.imshow(conv_cat6)
+plt.show()
 
 
 
